@@ -1,3 +1,3 @@
-module sekyoro.top/m
+module sekyoro.top
 
-go 1.20
+go 1.21.3
