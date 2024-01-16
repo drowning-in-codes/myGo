@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,11 +28,10 @@ func GetPicHandler(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "没有图片",
 		})
-		return
 	} else {
 		// 随机在一个目录下获取随机一张图片
 		random_dir := entries[rand.Intn(total_len)]
-		entries, err = os.ReadDir(download_root_folder + "/" + random_dir.Name())
+		entries, err = os.ReadDir(filepath.Join(download_root_folder, random_dir.Name()))
 		if err != nil {
 			log.Panic(err.Error())
 		}
@@ -43,7 +43,7 @@ func GetPicHandler(c *gin.Context) {
 			return
 		} else {
 			random_pic := entries[rand.Intn(total_len)]
-			c.File(download_root_folder + "/" + random_dir.Name() + "/" + random_pic.Name())
+			c.File(filepath.Join(download_root_folder, random_dir.Name(), random_pic.Name()))
 		}
 
 	}
