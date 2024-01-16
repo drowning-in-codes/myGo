@@ -13,6 +13,7 @@ import (
 )
 
 func DownloadPixvisionPicHandler(ctx *gin.Context) {
+	counter  := 0
 	allow_img_site := checkAllowSite()
 	// fmt.Println(allow_img_site)
 	c := colly.NewCollector(colly.UserAgent(userAgent), colly.AllowedDomains(allow_img_site...),
@@ -52,7 +53,6 @@ func DownloadPixvisionPicHandler(ctx *gin.Context) {
 	if !ok {
 		log.Panic("下载路径配置出错")
 	}
-	counter := 0
 
 	// Find and visit all links
 	c.OnHTML("a[href]", func(e *colly.HTMLElement) {

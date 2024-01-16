@@ -10,7 +10,7 @@ allow_site:
     "danbooru2.booru.org",
   ]
 proxy:
-  http: "127.0.0.1:7425"
+  http: 
 
 limit_page: 2
-root_folder: "../imgs"
+root_folder: "./imgs"

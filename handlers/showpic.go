@@ -23,6 +23,7 @@ func RandomShowPicHandler(c *gin.Context) {
 	}
 	random_dir := entries[rand.Intn(len(entries))]
 	abs_random_dir := filepath.Join("./imgs", random_dir.Name())
+	os.MkdirAll(abs_random_dir, os.ModePerm)
 	if err := PicExist(abs_random_dir); err != nil {
 		c.JSON(404, gin.H{"message": err.Error()})
 	}

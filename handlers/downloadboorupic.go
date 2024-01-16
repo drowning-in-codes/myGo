@@ -20,6 +20,7 @@ import (
 // }
 
 func DownloadBooruPicHandler(ctx *gin.Context) {
+	counter := 0
 	img_site := booru_site
 	allow_img_site := checkAllowSite()
 	if ctx.Param("type") != "wild" {
@@ -61,13 +62,14 @@ func DownloadBooruPicHandler(ctx *gin.Context) {
 	if !ok {
 		log.Panic("下载路径配置出错")
 	}
+	var my_folder string
 	if ctx.Param("type") == "wild" {
-		download_root_folder = filepath.Join(download_root_folder, "wildbooru")
+		my_folder = filepath.Join(download_root_folder, "wildbooru")
 	} else {
-		download_root_folder = filepath.Join(download_root_folder, "safebooru")
+		my_folder = filepath.Join(download_root_folder, "safebooru")
 
 	}
-	os.MkdirAll(download_root_folder, os.ModePerm)
+	os.MkdirAll(my_folder, os.ModePerm)
 	// Find and visit all links
 	c.OnHTML("div.content > div:not([class])", func(e *colly.HTMLElement) {
 		e.ForEach("a[id]", func(_ int, el *colly.HTMLElement) {
@@ -95,13 +97,16 @@ func DownloadBooruPicHandler(ctx *gin.Context) {
 			filename := r.FileName()
 			p := regexp.MustCompile(`_\d+$`)
 			filename = p.ReplaceAllString(filename, "")
-			log.Default().Printf("download success! %s\n", filename)
-			r.Save(filepath.Join(download_root_folder, filename))
+			r.Save(filepath.Join(my_folder, filename))
+			counter += 1
 		}
+	})
+	c.OnError(func(r *colly.Response, err error) {
+		log.Default().Printf("visit %s error %s\n", r.Request.URL.String(), err.Error())
 	})
 	for i := 0; i < limit_page; i++ {
 		c.Visit(img_site)
 	}
 	c.Wait()
-	ctx.JSON(http.StatusOK, fmt.Sprintf("success!,%d directory image", limit_page))
+	ctx.JSON(http.StatusOK, fmt.Sprintf("success! %d image goLoad", counter))
 }

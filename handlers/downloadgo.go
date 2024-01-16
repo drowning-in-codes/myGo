@@ -69,5 +69,5 @@ func LoadGoHandler(ctx *gin.Context) {
 	})
 	c.Visit(mygo_site)
 
-	ctx.JSON(http.StatusOK, fmt.Sprintf("success!,%d image Go", total_img))
+	ctx.JSON(http.StatusOK, fmt.Sprintf("success! %d image Go", total_img))
 }
