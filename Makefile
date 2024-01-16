@@ -11,8 +11,10 @@ test:
 run:
 	@go run .
 
+vendor:
+	@go vendor
 
-.PHONY: all test run
+.PHONY: all test run vendor
 
 
 	

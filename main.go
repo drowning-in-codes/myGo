@@ -6,13 +6,15 @@ import (
 )
 
 func main() {
+
 	router := gin.Default()
 
 	r := router.Group("/api")
-	r.Static("/img", "./imgs")
+	router.Static("/img", "./imgs")
 	routes.DownloadPicRoutes(r)
 	routes.ShowPicRoutes(r)
 	routes.GetPicRoutes(r)
 
 	router.Run(":8080")
+
 }

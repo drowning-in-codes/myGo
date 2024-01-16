@@ -6,5 +6,7 @@ import (
 )
 
 func DownloadPicRoutes(router *gin.RouterGroup) {
-	router.GET("/refresh", handlers.DownloadPicHandler)
+	router.GET("/pix", handlers.DownloadPixvisionPicHandler)
+	router.GET("/booru/:type", handlers.DownloadBooruPicHandler)
+
 }
