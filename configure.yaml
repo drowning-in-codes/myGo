@@ -1,4 +1,4 @@
-allow_site: ["www.pixivision.net", "i.pximg.net","www.pixiv.net","safebooru.org","img.booru.org","danbooru2.booru.org"]
+allow_site: ["opreviews.anime-pictures.net","anime-pictures.net","www.pixivision.net", "i.pximg.net","www.pixiv.net","safebooru.org","img.booru.org","danbooru2.booru.org"]
 
 proxy:
   http:

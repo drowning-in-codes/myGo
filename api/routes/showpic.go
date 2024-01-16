@@ -9,6 +9,6 @@ import (
 func ShowPicRoutes(router *gin.RouterGroup) {
 	router.GET("/show", handlers.RandomShowPicHandler)
 	router.GET("/show/:type", handlers.TypeShowPicHandler)
-	router.GET("/iwannago", handlers.MyGoHandler)
+	router.GET("/iwannago", handlers.LoadGoHander)
 
 }

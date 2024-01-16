@@ -6,35 +6,14 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"reflect"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly/v2"
 )
 
-
-// type Pics struct {
-// 	title string
-// 	pics map[string]string
-// }
-
 func DownloadPixvisionPicHandler(ctx *gin.Context) {
-	userAgent := "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
-	conf := loadConf("./configure.yaml")
-	proxy := conf["proxy"].(map[string]interface{})
-	allow_img_site := make([]string, 0)
-	value := reflect.ValueOf(conf["allow_site"])
-	if value.Kind() == reflect.Array || value.Kind() == reflect.Slice {
-		// implement
-		for i := 0; i < value.Len(); i++ {
-			// fmt.Println(value.Index[i])
-			allow_img_site = append(allow_img_site, value.Index(i).Interface().(string))
-		}
-
-	} else {
-		log.Panic("请填写允许爬取网站域名字符串")
-	}
+	allow_img_site := checkAllowSite()
 	// fmt.Println(allow_img_site)
 	c := colly.NewCollector(colly.UserAgent(userAgent), colly.AllowedDomains(allow_img_site...),
 		colly.Async())

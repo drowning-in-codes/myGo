@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"reflect"
 	"regexp"
 	"strings"
 	"time"
@@ -22,25 +21,12 @@ import (
 
 func DownloadBooruPicHandler(ctx *gin.Context) {
 	img_site := booru_site
+	allow_img_site := checkAllowSite()
 	if ctx.Param("type") != "wild" {
 		log.Default().Println(ctx.Param("type"))
 		img_site = safebooru_site
 	}
-	userAgent := "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
-	conf := loadConf("./configure.yaml")
-	proxy := conf["proxy"].(map[string]interface{})
-	allow_img_site := make([]string, 0)
-	value := reflect.ValueOf(conf["allow_site"])
-	if value.Kind() == reflect.Array || value.Kind() == reflect.Slice {
-		// implement
-		for i := 0; i < value.Len(); i++ {
-			// fmt.Println(value.Index[i])
-			allow_img_site = append(allow_img_site, value.Index(i).Interface().(string))
-		}
 
-	} else {
-		log.Panic("请填写允许爬取网站域名字符串")
-	}
 	// fmt.Println(allow_img_site)
 	c := colly.NewCollector(colly.UserAgent(userAgent), colly.AllowedDomains(allow_img_site...),
 		colly.Async())

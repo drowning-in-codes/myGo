@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -15,10 +16,29 @@ import (
 const pixivision_site = "https://www.pixivision.net/zh/c/illustration"
 const safebooru_site = "https://safebooru.org/index.php?page=post&s=list"
 const booru_site = "https://danbooru2.booru.org/index.php?page=post&s=list"
+const mygo_site = "https://anime-pictures.net/posts?page=0&search_tag=bang+dream!+it%27s+mygo!!!!!&lang=en"
 
 var conf = loadConf("./configure.yaml")
 var download_root_folder, ok = conf["root_folder"].(string)
+var proxy = conf["proxy"].(map[string]interface{})
 
+const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"
+
+func checkAllowSite() []string {
+	var allow_img_site = make([]string, 0)
+
+	value := reflect.ValueOf(conf["allow_site"])
+	if value.Kind() == reflect.Array || value.Kind() == reflect.Slice {
+		// implement
+		for i := 0; i < value.Len(); i++ {
+			// fmt.Println(value.Index[i])
+			allow_img_site = append(allow_img_site, value.Index(i).Interface().(string))
+		}
+	} else {
+		log.Panic("请填写允许爬取网站域名字符串")
+	}
+	return allow_img_site
+}
 func PicExist(file string) (err error) {
 	// 查看该目录下是否有图片
 	entries, err := os.ReadDir(file)
