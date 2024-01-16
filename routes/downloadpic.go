@@ -5,6 +5,6 @@ import (
 	"sekyoro.top/Goimg/handlers"
 )
 
-func DownloadPicRoutes(router *gin.Engine) {
+func DownloadPicRoutes(router *gin.RouterGroup) {
 	router.GET("/refresh", handlers.DownloadPicHandler)
 }

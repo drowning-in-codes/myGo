@@ -5,7 +5,6 @@ import (
 	"sekyoro.top/Goimg/handlers"
 )
 
-func ShowPicRoutes(router *gin.Engine) {
-
+func ShowPicRoutes(router *gin.RouterGroup) {
 	router.GET("/show", handlers.ShowPicHandler)
 }
