@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly/v2"
@@ -55,7 +56,20 @@ func DownloadPicHandler(ctx *gin.Context) {
 		log.Panic("请填写允许爬取网站域名字符串")
 	}
 	// fmt.Println(allow_img_site)
-	c := colly.NewCollector(colly.AllowedDomains(allow_img_site...))
+	c := colly.NewCollector(colly.AllowedDomains(allow_img_site...),
+		colly.Async())
+	c.Limit(&colly.LimitRule{
+		DomainGlob:  "*pximg.*",
+		Parallelism: 5,
+		//Delay:      5 * time.Second,
+		RandomDelay: 500 * time.Duration(time.Millisecond),
+	})
+	c.Limit(&colly.LimitRule{
+		DomainGlob:  "*pixivision.*",
+		Parallelism: 5,
+		Delay:       200 * time.Duration(time.Millisecond),
+		RandomDelay: 500 * time.Duration(time.Millisecond),
+	})
 	if proxy != nil {
 		if proxy["http"] != nil {
 			err := c.SetProxy(fmt.Sprintf("http:%s", proxy["http"].(string)))
@@ -127,6 +141,6 @@ func DownloadPicHandler(ctx *gin.Context) {
 		log.Default().Println("Request URL:", r.Request.URL, "failed with response:", r, "\nError:", err)
 	})
 	c.Visit(pixivision_site)
-
+	c.Wait()
 	ctx.JSON(http.StatusOK, fmt.Sprintf("success!,%d directory image", limit_page))
 }
