@@ -1,0 +1,8 @@
+allow_site: ["www.pixivision.net", "i.pximg.net","www.pixiv.net"]
+
+proxy:
+  http:
+  https:
+
+limit_page: 2
+root_folder: "./imgs"
