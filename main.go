@@ -5,10 +5,13 @@ import (
 	"sekyoro.top/Goimg/routes"
 )
 
+
 func main() {
 	router := gin.Default()
-	routes.DownloadPicRoutes(router)
-	routes.ShowPicRoutes(router)
+	r := router.Group("/api")
+	r.Static("/img","./imgs")
+	// routes.DownloadPicRoutes(router)
+	routes.ShowPicRoutes(r)
 
 	router.Run(":8080")
 }
