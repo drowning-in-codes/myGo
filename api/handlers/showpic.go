@@ -24,7 +24,7 @@ func RandomShowPicHandler(c *gin.Context) {
 	}
 
 	// 随机获取一张图片
-	randomPicURL, err := RandomFile(abs_random_dir)
+	randomPicURL, err := RandomFiletoURL(abs_random_dir)
 	if err != nil {
 		c.JSON(404, gin.H{"message": err.Error()})
 	}
@@ -55,7 +55,7 @@ func TypeShowPicHandler(c *gin.Context) {
 		navURL = filepath.Join("./img", "safebooru")
 	}
 
-	randomPicURL, err := RandomFile(navURL)
+	randomPicURL, err := RandomFiletoURL(navURL)
 	if err != nil {
 		c.JSON(404, gin.H{"message": err.Error()})
 	}

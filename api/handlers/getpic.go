@@ -10,8 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var conf = loadConf("./configure.yaml")
-var download_root_folder, ok = conf["root_folder"].(string)
+
 
 func GetPicHandler(c *gin.Context) {
 	if !ok {
