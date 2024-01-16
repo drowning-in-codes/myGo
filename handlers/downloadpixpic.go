@@ -33,13 +33,13 @@ func DownloadPixvisionPicHandler(ctx *gin.Context) {
 	})
 	if proxy != nil {
 		if proxy["http"] != nil {
-			err := c.SetProxy(fmt.Sprintf("http:%s", proxy["http"].(string)))
+			err := c.SetProxy(fmt.Sprintf("http://%s", proxy["http"].(string)))
 			if err != nil {
 				log.Panic(err.Error())
 			}
 		}
 		if proxy["socks5"] != nil {
-			err := c.SetProxy(fmt.Sprintf("socks5:%s", proxy["socks5"].(string)))
+			err := c.SetProxy(fmt.Sprintf("socks5://%s", proxy["socks5"].(string)))
 			if err != nil {
 				log.Panic(err.Error())
 			}
@@ -49,7 +49,6 @@ func DownloadPixvisionPicHandler(ctx *gin.Context) {
 	if !ok {
 		log.Panic("爬取图片目录数配置出错")
 	}
-	download_root_folder, ok := conf["root_folder"].(string)
 	if !ok {
 		log.Panic("下载路径配置出错")
 	}
@@ -86,14 +85,13 @@ func DownloadPixvisionPicHandler(ctx *gin.Context) {
 		var img_url URL_path = url_path(r.Request.URL.Path)
 		// log.Default().Println("img_name:", img_name)
 		if img_url.isPic() {
-			img_path := filepath.Join(r.Ctx.Get("title"), string(img_url.(url_path)))
-			log.Default().Println("save path", img_path)
+			img_path := filepath.Join(download_root_folder,r.Ctx.Get("title"), string(img_url.(url_path)))
 			r.Save(img_path)
 		}
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		log.Default().Println("Visiting", r.URL)
 		if r.URL.Host == "i.pximg.net" {
 			r.Headers.Set("Referer", "https://www.pixivision.net/")
 		}

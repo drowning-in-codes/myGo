@@ -10,7 +10,11 @@ import (
 )
 
 func RandomShowPicHandler(c *gin.Context) {
-	entries, error := os.ReadDir("./imgs")
+	if !ok {
+		log.Fatalln("请正确填写下载图片的根目录")
+	}
+
+	entries, error := os.ReadDir(download_root_folder)
 	if error != nil {
 		log.Panic(error.Error())
 	}
@@ -33,7 +37,10 @@ func RandomShowPicHandler(c *gin.Context) {
 }
 
 func TypeShowPicHandler(c *gin.Context) {
-	_, error := os.ReadDir("./imgs")
+	if !ok {
+		log.Fatalln("请正确填写下载图片的根目录")
+	}
+	_, error := os.ReadDir(download_root_folder)
 	if error != nil {
 		log.Panic(error.Error())
 	}

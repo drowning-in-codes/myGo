@@ -41,13 +41,13 @@ func DownloadBooruPicHandler(ctx *gin.Context) {
 
 	if proxy != nil {
 		if proxy["http"] != nil {
-			err := c.SetProxy(fmt.Sprintf("http:%s", proxy["http"].(string)))
+			err := c.SetProxy(fmt.Sprintf("http://%s", proxy["http"].(string)))
 			if err != nil {
 				log.Panic(err.Error())
 			}
 		}
 		if proxy["socks5"] != nil {
-			err := c.SetProxy(fmt.Sprintf("socks5:%s", proxy["socks5"].(string)))
+			err := c.SetProxy(fmt.Sprintf("socks5://%s", proxy["socks5"].(string)))
 			if err != nil {
 				log.Panic(err.Error())
 			}
@@ -57,7 +57,7 @@ func DownloadBooruPicHandler(ctx *gin.Context) {
 	if !ok {
 		log.Panic("爬取图片目录数配置出错")
 	}
-	download_root_folder, ok := conf["root_folder"].(string)
+
 	if !ok {
 		log.Panic("下载路径配置出错")
 	}

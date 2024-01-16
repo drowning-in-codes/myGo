@@ -10,8 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-
 func GetPicHandler(c *gin.Context) {
 	if !ok {
 		log.Fatalln("请正确填写下载图片的根目录")
