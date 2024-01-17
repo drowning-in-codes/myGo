@@ -108,5 +108,5 @@ func DownloadBooruPicHandler(ctx *gin.Context) {
 		c.Visit(img_site)
 	}
 	c.Wait()
-	ctx.JSON(http.StatusOK, fmt.Sprintf("success! %d image goLoad", counter))
+	ctx.JSON(http.StatusOK, fmt.Sprintf("success! %d image go Load", counter))
 }

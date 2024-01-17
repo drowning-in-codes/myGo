@@ -59,7 +59,7 @@ func DownloadPixvisionPicHandler(ctx *gin.Context) {
 		if e.DOM.Parent().HasClass("arc__title") {
 			log.Default().Println("Link found:", e.Attr("href"))
 			if counter >= limit_page {
-				ctx.JSON(http.StatusOK, fmt.Sprintf("success!,%d directory image", limit_page))
+				ctx.JSON(http.StatusOK, fmt.Sprintf("success! %d directory image", limit_page))
 			}
 			e.Request.Visit(e.Attr("href"))
 			counter += 1
@@ -102,5 +102,5 @@ func DownloadPixvisionPicHandler(ctx *gin.Context) {
 	})
 	c.Visit(pixivision_site)
 	c.Wait()
-	ctx.JSON(http.StatusOK, fmt.Sprintf("success!,%d directory image", limit_page))
+	ctx.JSON(http.StatusOK, fmt.Sprintf("success! %d directory image", limit_page))
 }
